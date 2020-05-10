@@ -179,6 +179,14 @@ function get_file(path, file, callback){
 
 
 
+//复制链接
+function copyUrl(){
+		var cpUrl=document.getElementById("downUrl");
+		cpUrl.select(); // 选择对象
+		document.execCommand("Copy"); // 执行浏览器复制命令
+		alert("复制成功!");
+}
+
 // 文件展示 ?a=view
 function file(path){
 	var name = path.split('/').pop();
@@ -260,14 +268,16 @@ function file_code(path){
 // 文件展示 视频 |mp4|webm|avi|
 function file_video(path){
 	var url = window.location.origin + path;
-	console.log(url);
+	console.log("source:"+url);
 	url = decodeURI(url);
-	console.log(url);
+	console.log("decodeURI:"+url);
 	url = encodeURI(url);
-	console.log(url);
+	console.log("encodeURI:"+url);
 	var playBtn = `<a class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" href="potplayer://${url}"><i class="mdui-icon material-icons">&#xe038;</i>在 potplayer 中播放</a>`;
+	var copyBtn = `<a class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onClick="copyUrl()"><i class="mdui-icon material-icons">&#xe038;</i>复制链接</a>`; 
 	if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) { //移动端
 	    playBtn = `	<a class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" href="intent:${url}#Intent;package=com.mxtech.videoplayer.ad;S.title=${path};end"><i class="mdui-icon material-icons">&#xe039;</i>在mxplayer中播放</a>`;
+	    copyBtn = `<a class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onClick="copyUrl()"><i class="mdui-icon material-icons">&#xe038;</i>复制链接</a>`; 
 	}
 	var content = `
 <div class="mdui-container-fluid">
@@ -275,7 +285,7 @@ function file_video(path){
 	<video class="mdui-video-fluid mdui-center" preload controls>
 	  <source src="${url}" type="video/mp4">
 	</video>
-	<br>${playBtn}
+	<br>${playBtn}&nbsp;&nbsp;${copyBtn}
 	<!-- 固定标签 -->
 	<div class="mdui-textfield">
 	  <label class="mdui-textfield-label">下载地址</label>
